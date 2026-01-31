@@ -7,25 +7,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-/* GLOBAL */
-*{box-sizing:border-box;cursor:url("images/cursor.png") 8 8, auto}
+*{
+  box-sizing:border-box;
+  cursor:url("images/cursor.png") 8 8, auto;
+}
 body{
   margin:0;
   background:#ffe6f0;
   color:#4a1f33;
-  height:100vh;
 }
-.hidden{display:none}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+
+/* ===== PIXEL UI ===== */
+.pixel{
+  font-family:'Press Start 2P';
+}
+.pixel-btn{
+  font-family:'Press Start 2P';
+  padding:10px;
+  background:#ff85b3;
+  border:none;
+  border-radius:10px;
+  color:white;
+}
 
 /* ===== HOME ===== */
 #home{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  height:100vh;
-  font-family:'Press Start 2P';
-  gap:20px;
+  text-align:center;
+  padding:40px;
 }
 #home h1{
   font-size:28px;
@@ -35,43 +47,27 @@ body{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
-  width:80%;
+  margin-top:30px;
 }
 .chapter{
   background:#fff0f6;
   border:4px solid #ff9ecf;
   border-radius:16px;
-  padding:16px;
-  text-align:center;
-}
-.chapter button{
-  margin-top:10px;
-  padding:10px;
-  width:100%;
-  background:#ff85b3;
-  border:none;
-  border-radius:10px;
-  color:white;
-  font-family:'Press Start 2P';
+  padding:20px;
 }
 .mascot{
-  display:flex;
-  align-items:center;
-  gap:12px;
+  margin-top:20px;
 }
-.mascot img{width:64px}
+.mascot img{width:80px}
 
 /* ===== EXAM ===== */
 #exam{
   display:flex;
-  height:100vh;
 }
 .sidebar{
-  width:200px;
+  width:180px;
   background:#ffd1e8;
   padding:10px;
-  overflow-y:auto;
-  font-family:'Press Start 2P';
 }
 .qbtn{
   width:100%;
@@ -87,14 +83,12 @@ body{
 
 .main{
   flex:1;
-  padding:14px;
+  padding:16px;
   font-family:'Inter';
-  overflow-y:auto;
 }
 .header{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   font-family:'Press Start 2P';
   font-size:9px;
 }
@@ -112,12 +106,12 @@ body{
 }
 .question-box{
   border:2px solid #ff9ecf;
-  border-radius:12px;
+  border-radius:10px;
   padding:8px;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 .question{
-  font-size:14px;
+  font-size:13px;
 }
 .choices{
   display:grid;
@@ -126,32 +120,16 @@ body{
   margin-top:6px;
 }
 .choice{
-  padding:8px;
+  padding:6px;
   border:2px solid #ff85b3;
-  border-radius:8px;
+  border-radius:6px;
   background:#ffe0ef;
-  font-size:13px;
+  font-size:12px;
 }
 .choice:hover{background:#ffb3d9}
 
-.controls{
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-  font-family:'Press Start 2P';
-}
-.controls button{
-  padding:8px;
-  background:#ff85b3;
-  border:none;
-  border-radius:8px;
-  color:white;
-}
-
 /* ===== REVIEW ===== */
 #review{
-  height:100vh;
-  overflow-y:auto;
   padding:20px;
   font-family:'Inter';
 }
@@ -173,36 +151,40 @@ body{
 <body>
 
 <!-- HOME -->
-<div id="home">
+<div id="home" class="screen active pixel">
   <h1>tangina mo patho 🖕</h1>
+  <p>📚 grind responsibly</p>
 
   <div class="mascot">
-    <img src="images/cat.gif">
-    <div>📚 grind mode beh</div>
+    <img src="images/cat.gif"><br>
+    🐱 kaya mo yan beh
   </div>
 
   <div class="chapter-grid">
     <div class="chapter">
       🧬 Chapter 1  
-      <div style="font-size:10px">Cell Injury</div>
-      <button onclick="startExam()">▶ Start Exam</button>
+      <p>Cell Injury</p>
+      <button class="pixel-btn" onclick="startExam('ch1')">▶ Start Exam</button>
+    </div>
+    <div class="chapter">
+      🔥 Chapter 2  
+      <p>Inflammation</p>
+      <button class="pixel-btn" onclick="startExam('ch2')">▶ Start Exam</button>
     </div>
   </div>
 </div>
 
 <!-- EXAM -->
-<div id="exam" class="hidden">
+<div id="exam" class="screen">
   <div class="sidebar" id="sidebar"></div>
   <div class="main">
     <div class="header">
-      <div id="timer">⏱️ 40:00</div>
-      <button onclick="submitExam()">Submit Exam</button>
+      <div id="timer">⏱️ 20:00</div>
+      <button class="pixel-btn" onclick="submitExam()">Submit Exam</button>
     </div>
     <div class="progress"><div class="bar" id="bar"></div></div>
-
-    <div id="pageQuestions"></div>
-
-    <div class="controls">
+    <div id="page"></div>
+    <div class="pixel">
       <button onclick="prevPage()">⬅ Prev</button>
       <button onclick="nextPage()">Next ➡</button>
     </div>
@@ -210,29 +192,52 @@ body{
 </div>
 
 <!-- REVIEW -->
-<div id="review" class="hidden">
-  <h2>Review</h2>
+<div id="review" class="screen">
+  <h2 class="pixel">Review</h2>
   <div id="reviewList"></div>
-  <button onclick="goHome()">🏠 Home</button>
+  <button class="pixel-btn" onclick="goHome()">🏠 Home</button>
+  <button class="pixel-btn" onclick="retake()">🔁 Retake</button>
 </div>
 
 <script>
-/* ===== QUESTIONS (50) ===== */
-const questions = [
-{q:"Which biochemical abnormality occurs earliest in reversible cell injury?",c:["DNA fragmentation","ATP depletion","Membrane rupture","Lysosomal leakage"],a:1,r:"ATP depletion is the earliest event."},
-{q:"Cell swelling during hypoxia is due to failure of:",c:["Ca pumps","Na/K ATPase","Protein synthesis","DNA repair"],a:1,r:"Na/K ATPase failure causes water influx."},
-// … repeat until 50 (logic already supports all)
-];
+/* ===== QUESTION BANK ===== */
+const bank={
+ch1:[
+{q:"Earliest abnormality in reversible cell injury?",c:["DNA fragmentation","ATP depletion","Membrane rupture","Lysosomal leakage"],a:1,r:"ATP depletion is the earliest event."},
+{q:"Cell swelling in hypoxia is due to:",c:["Ca pumps","Na/K ATPase","DNA damage","Protein folding"],a:1,r:"Failure of Na/K ATPase causes water influx."},
+{q:"Irreversible cell injury is marked by:",c:["Fatty change","Mito swelling","Membrane rupture","Ribosome loss"],a:2,r:"Loss of membrane integrity commits cell to death."},
+{q:"Key ion in cell injury?",c:["Na","K","Ca","Cl"],a:2,r:"Calcium activates destructive enzymes."},
+{q:"ROS cause injury via:",c:["ATP loss","Lipid peroxidation","DNA synthesis","Protein folding"],a:1,r:"ROS damage membranes."},
+{q:"Coagulative necrosis occurs in:",c:["Brain","TB","Pancreatitis","MI"],a:3,r:"Ischemia in solid organs."},
+{q:"Liquefactive necrosis is seen in:",c:["Heart","Kidney","Brain","Spleen"],a:2,r:"Brain infarcts liquefy."},
+{q:"Apoptosis requires:",c:["Inflammation","ATP","Cell swelling","Membrane rupture"],a:1,r:"Apoptosis is energy dependent."},
+{q:"Hypertrophy increases:",c:["Cell number","Cell size","DNA","Apoptosis"],a:1,r:"Protein synthesis enlarges cells."},
+{q:"Metaplasia is:",c:["Irreversible","Adaptive","Malignant","Necrotic"],a:1,r:"Metaplasia is a reversible adaptation."}
+],
+ch2:[
+{q:"First vascular response in inflammation?",c:["Permeability","Vasodilation","Adhesion","Exudation"],a:1,r:"Vasodilation occurs first."},
+{q:"Histamine is released from:",c:["Neutrophils","Mast cells","Macrophages","Platelets"],a:1,r:"Mast cells store histamine."},
+{q:"Mediator of pain?",c:["Histamine","Bradykinin","NO","IL-10"],a:1,r:"Bradykinin causes pain."},
+{q:"Dominant cell in acute inflammation?",c:["Lymphocyte","Macrophage","Neutrophil","Eosinophil"],a:2,r:"Neutrophils dominate early."},
+{q:"Leukocyte rolling is mediated by:",c:["Integrins","Selectins","PECAM","ICAM"],a:1,r:"Selectins mediate rolling."},
+{q:"Firm adhesion uses:",c:["Selectins","Integrins","Histamine","PGs"],a:1,r:"Integrins cause firm adhesion."},
+{q:"Diapedesis uses:",c:["ICAM","PECAM","Selectins","TNF"],a:1,r:"PECAM mediates transmigration."},
+{q:"Fever is caused by:",c:["IL-10","TNF","IL-1","Histamine"],a:2,r:"IL-1 induces fever."},
+{q:"Acute phase reactants are produced by:",c:["Kidney","Liver","Spleen","Bone marrow"],a:1,r:"Liver produces CRP and fibrinogen."},
+{q:"Chronic inflammation involves:",c:["Neutrophils","Macrophages","Basophils","Mast cells"],a:1,r:"Macrophages dominate chronic inflammation."}
+]
+};
 
-let shuffled=[],answers=[],flags=[],page=0,time=40*60,timerInt;
+/* ===== STATE ===== */
+let questions=[],answers=[],flags=[],page=0,time=20*60,timerInt,activeChapter;
 
 /* ===== START ===== */
-function startExam(){
- document.getElementById("home").classList.add("hidden");
- document.getElementById("exam").classList.remove("hidden");
- shuffled=[...questions].sort(()=>Math.random()-0.5);
- answers=[];flags=[];
- page=0;
+function startExam(ch){
+ activeChapter=ch;
+ questions=[...bank[ch]].sort(()=>Math.random()-0.5);
+ answers=[];flags=[];page=0;time=20*60;
+ home.classList.remove("active");
+ exam.classList.add("active");
  buildSidebar();
  renderPage();
  startTimer();
@@ -241,7 +246,7 @@ function startExam(){
 /* ===== SIDEBAR ===== */
 function buildSidebar(){
  sidebar.innerHTML="";
- shuffled.forEach((_,i)=>{
+ questions.forEach((_,i)=>{
   const b=document.createElement("button");
   b.className="qbtn";
   b.textContent="Q"+(i+1);
@@ -252,10 +257,9 @@ function buildSidebar(){
 
 /* ===== PAGE RENDER ===== */
 function renderPage(){
- pageQuestions.innerHTML="";
+ pageEl.innerHTML="";
  const start=page*10;
- const end=start+10;
- shuffled.slice(start,end).forEach((q,idx)=>{
+ questions.slice(start,start+10).forEach((q,idx)=>{
   const qi=start+idx;
   const box=document.createElement("div");
   box.className="question-box";
@@ -270,10 +274,11 @@ function renderPage(){
     ch.appendChild(b);
   });
   box.appendChild(ch);
-  pageQuestions.appendChild(box);
+  pageEl.appendChild(box);
  });
  updateUI();
 }
+const pageEl=document.getElementById("page");
 
 /* ===== UI ===== */
 function updateUI(){
@@ -281,11 +286,9 @@ function updateUI(){
   b.classList.toggle("answered",answers[i]!=null);
   b.classList.toggle("flagged",flags[i]);
  });
- bar.style.width=(answers.filter(v=>v!=null).length/shuffled.length*100)+"%";
+ bar.style.width=(answers.filter(v=>v!=null).length/questions.length*100)+"%";
 }
-
-/* ===== NAV ===== */
-function nextPage(){if((page+1)*10<shuffled.length){page++;renderPage()}}
+function nextPage(){if((page+1)*10<questions.length){page++;renderPage()}}
 function prevPage(){if(page>0){page--;renderPage()}}
 
 /* ===== TIMER ===== */
@@ -301,24 +304,31 @@ function startTimer(){
 /* ===== SUBMIT / REVIEW ===== */
 function submitExam(){
  clearInterval(timerInt);
- exam.classList.add("hidden");
- review.classList.remove("hidden");
+ exam.classList.remove("active");
+ review.classList.add("active");
  reviewList.innerHTML="";
- shuffled.forEach((q,i)=>{
+ questions.forEach((q,i)=>{
   const div=document.createElement("div");
-  div.className="review-q "+(answers[i]===q.a?"correct":"wrong");
-  div.innerHTML=`<b>${i+1}. ${q.q}</b><br>
-  Your answer: ${q.c[answers[i]]||"None"}<br>
-  Correct: ${q.c[q.a]}
-  <div class="rationale">📝 ${q.r}</div>`;
+  div.className="review-q";
+  q.c.forEach((c,ci)=>{
+    const span=document.createElement("div");
+    span.textContent=c;
+    if(ci===q.a)span.classList.add("correct");
+    if(answers[i]===ci&&ci!==q.a)span.classList.add("wrong");
+    div.appendChild(span);
+  });
+  div.innerHTML=`<b>${i+1}. ${q.q}</b><br>`+div.innerHTML+
+    `<div class="rationale">📝 ${q.r}</div>`;
   reviewList.appendChild(div);
  });
 }
-
-/* ===== HOME ===== */
 function goHome(){
- review.classList.add("hidden");
- home.classList.remove("hidden");
+ review.classList.remove("active");
+ home.classList.add("active");
+}
+function retake(){
+ review.classList.remove("active");
+ startExam(activeChapter);
 }
 </script>
 
