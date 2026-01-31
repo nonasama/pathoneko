@@ -2,304 +2,211 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pink Pixel Pathology</title>
+<title>Pink Pixel Pathology Quiz</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-body{
-  background:#ffe6f0;
-  font-family:'Press Start 2P', cursive;
-  cursor:url('https://cur.cursors-4u.net/games/gam-4/gam372.cur'),auto;
-  color:#5a2a3b;
-  padding:20px;
-}
+*{font-family:'Press Start 2P',cursive;box-sizing:border-box}
+body{margin:0;background:#ffe6f0;color:#5a2a3b;display:flex;height:100vh}
 
-.box{
-  max-width:860px;
-  margin:auto;
-  background:#fff0f6;
-  border:5px solid #ff9ecf;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 0 25px #ffc1dc;
-}
+/* SIDEBAR */
+.sidebar{width:200px;background:#ffd1e8;border-right:4px solid #ff85b3;padding:10px;overflow-y:auto}
+.sidebar h2{font-size:11px;text-align:center;color:#d63384}
+.qbtn{width:100%;padding:8px;margin:4px 0;font-size:10px;background:#ffe0ef;border:2px solid #ff85b3;border-radius:8px;cursor:pointer}
+.qbtn.answered{background:#b8f2c2}
 
-h1,h2{text-align:center;color:#d63384;font-size:14px;}
+/* MAIN */
+.main{flex:1;padding:20px;overflow-y:auto}
+.box{max-width:720px;margin:auto;background:#fff0f6;border:4px solid #ff9ecf;border-radius:16px;padding:20px}
+h1{text-align:center;font-size:14px;color:#d63384}
 
-.map{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-.map button{
-  padding:20px;
-  font-size:10px;
-  background:#ffe0ef;
-  border:3px solid #ff85b3;
-  border-radius:15px;
-  cursor:pointer;
-}
-.map button.locked{
-  opacity:0.5;
-  cursor:not-allowed;
-}
-.map button:hover:not(.locked){background:#ffb3d9;}
+/* MASCOT */
+.mascot{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.mascot img{width:60px}
+.speech{background:white;border:3px solid #ff85b3;border-radius:12px;padding:8px;font-size:10px}
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  font-size:10px;
-}
-.bar{
-  width:100%;
-  height:18px;
-  background:#ffd6e8;
-  border-radius:10px;
-  border:2px solid #ff85b3;
-  overflow:hidden;
-  margin:10px 0;
-}
-.fill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ff85b3,#ffb3d9);
-}
+/* IMAGE */
+.quiz-img{width:100%;border:3px solid #ff85b3;border-radius:10px;margin:10px 0}
 
-.image-box{
-  position:relative;
-  overflow:hidden;
-  border:3px solid #ff85b3;
-  border-radius:12px;
+/* CHOICES */
+.choice{
+ width:100%;padding:14px;margin:8px 0;
+ background:#ffe0ef;border:2px solid #ff85b3;border-radius:12px;
+ font-size:12px;line-height:1.6;cursor:pointer;
+ transition:.15s
 }
-.image-box img{
-  width:100%;
-  transition:transform .3s;
-}
-.image-box img:hover{transform:scale(1.5);}
-svg{position:absolute;inset:0;pointer-events:none;}
+.choice:hover{background:#ffb3d9;transform:scale(1.01)}
+.correct{background:#b8f2c2!important}
+.wrong{background:#ffb3b3!important}
 
-.choices button{
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  font-size:10px;
-  background:#ffe0ef;
-  border:2px solid #ff85b3;
-  border-radius:10px;
-  cursor:pointer;
-}
-.correct{background:#b8f2c2!important;}
-.wrong{background:#ffb3b3!important;}
+#explain{font-size:10px;margin-top:10px;display:none}
 
-.rationale{
-  display:none;
-  font-size:10px;
-  padding:10px;
-  border:2px dashed #ff85b3;
-  border-radius:10px;
-  background:#fff;
-  margin-top:8px;
-}
-
-.nav{
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-}
+/* NAV */
+.nav{display:flex;justify-content:space-between;margin-top:15px}
 .nav button{
-  width:48%;
-  padding:10px;
-  font-size:10px;
-  background:#ff85b3;
-  border:none;
-  border-radius:10px;
-  color:white;
-  cursor:pointer;
-}
-
-/* WITCH CAT */
-.mascot{
-  display:flex;
-  align-items:flex-end;
-  gap:10px;
-  margin-bottom:10px;
-}
-.mascot img{
-  width:90px;
-  image-rendering:pixelated;
-}
-.speech{
-  background:#fff;
-  border:3px solid #ff85b3;
-  border-radius:12px;
-  padding:8px;
-  font-size:9px;
-  max-width:260px;
-}
-
-/* SPARKLES */
-.sparkle{
-  position:absolute;
-  width:8px;height:8px;
-  background:pink;
-  animation:spark .8s forwards;
-}
-@keyframes spark{
-  0%{transform:scale(0);opacity:1}
-  100%{transform:scale(2);opacity:0}
+ width:48%;padding:10px;font-size:10px;
+ background:#ff85b3;color:white;border:none;border-radius:10px;cursor:pointer
 }
 
 /* MUSIC */
 .music-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  font-size:10px;
-  background:#ff85b3;
-  color:white;
-  padding:10px;
-  border-radius:12px;
-  cursor:pointer;
+ position:fixed;bottom:10px;right:10px;
+ font-size:10px;background:#ff85b3;color:white;
+ padding:8px;border-radius:10px;cursor:pointer
 }
 </style>
 </head>
 
 <body>
 
-<div class="box" id="screen"></div>
+<div class="sidebar">
+  <h2>Questions</h2>
+  <div id="sidebarBtns"></div>
+</div>
 
-<div class="music-btn" onclick="toggleMusic()">🎵 MUSIC</div>
+<div class="main">
+  <div class="box">
+    <h1>🌸 Pink Pixel Pathology 🌸</h1>
 
-<audio id="bgm" loop>
-  <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Komiku/Its_time_for_adventure/Komiku_-_12_-_Friends.mp3">
-</audio>
+    <div class="mascot">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Black_cat_silhouette.svg/512px-Black_cat_silhouette.svg.png">
+      <div class="speech" id="speech">You got this 💖</div>
+    </div>
 
-<audio id="correctSound" src="https://www.myinstants.com/media/sounds/undertale-heal.mp3"></audio>
+    <p id="question"></p>
+    <img id="image" class="quiz-img">
+    <div id="choices"></div>
+    <div id="explain"></div>
+
+    <div class="nav">
+      <button onclick="prevQ()">⬅ Back</button>
+      <button onclick="nextQ()">Next ➡</button>
+    </div>
+  </div>
+</div>
+
+<audio id="correctSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_6c43f79b61.mp3"></audio>
+<audio id="bgm" src="https://cdn.pixabay.com/audio/2022/08/02/audio_4f3a3a55a3.mp3" loop></audio>
+<div class="music-btn" onclick="toggleMusic()">🎵 Music</div>
 
 <script>
-const catGood=[
- "✨ Purr-fect diagnosis!",
- "🌸 Level unlocked!",
- "😺 Meowgical work!",
- "🧙‍♀️ Path wizard!"
+/* ========= QUESTION BANK ========= */
+
+const quiz = [
+/* 🧬 GENERAL PATHOLOGY (5) */
+{q:"Type of necrosis?",img:"https://upload.wikimedia.org/wikipedia/commons/6/69/Coagulative_necrosis_histopathology.jpg",
+choices:["Liquefactive","Coagulative","Caseous","Fat"],correct:1,
+why:"Coagulative necrosis preserves tissue architecture."},
+
+{q:"Typical necrosis in brain infarct?",img:"https://upload.wikimedia.org/wikipedia/commons/4/49/Liquefactive_necrosis_brain.jpg",
+choices:["Coagulative","Caseous","Liquefactive","Fat"],correct:2,
+why:"Brain infarcts undergo liquefactive necrosis."},
+
+{q:"TB granuloma necrosis?",img:"https://upload.wikimedia.org/wikipedia/commons/2/26/Caseous_necrosis.jpg",
+choices:["Fat","Caseous","Coagulative","Fibrinoid"],correct:1,
+why:"Caseous necrosis is typical of tuberculosis."},
+
+{q:"Fat necrosis is associated with?",img:"https://upload.wikimedia.org/wikipedia/commons/1/14/Fat_necrosis_pancreas.jpg",
+choices:["Brain","Pancreas","Liver","Kidney"],correct:1,
+why:"Fat necrosis occurs in acute pancreatitis."},
+
+{q:"Apoptosis feature?",img:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Apoptosis_DAPI.jpg",
+choices:["Inflammation","Cell swelling","No inflammation","Rupture"],correct:2,
+why:"Apoptosis does not elicit inflammation."},
+
+/* 🍖 LIVER PATHOLOGY (5) */
+{q:"Liver change shown?",img:"https://upload.wikimedia.org/wikipedia/commons/8/8a/Fatty_change_liver_histology.jpg",
+choices:["Fibrosis","Fatty change","Cirrhosis","Necrosis"],correct:1,
+why:"Fatty liver shows lipid vacuoles."},
+
+{q:"Chronic liver injury leads to?",img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Liver_cirrhosis_histology.jpg",
+choices:["Steatosis","Cirrhosis","Hepatitis A","Apoptosis"],correct:1,
+why:"Chronic injury causes fibrosis and cirrhosis."},
+
+{q:"Ballooning degeneration seen in?",img:"https://upload.wikimedia.org/wikipedia/commons/9/9c/Ballooning_degeneration.jpg",
+choices:["Alcoholic hepatitis","Viral hepatitis","Cirrhosis","Cancer"],correct:0,
+why:"Alcoholic hepatitis shows ballooning degeneration."},
+
+{q:"Mallory bodies found in?",img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Mallory_bodies.jpg",
+choices:["NAFLD","Alcoholic liver disease","HBV","HCV"],correct:1,
+why:"Mallory bodies are seen in alcoholic liver disease."},
+
+{q:"Kupffer cells are?",img:"https://upload.wikimedia.org/wikipedia/commons/d/d8/Kupffer_cells.jpg",
+choices:["Hepatocytes","Macrophages","Bile cells","Fibroblasts"],correct:1,
+why:"Kupffer cells are liver macrophages."}
 ];
-const catOops=[
- "😿 It’s okay, try again!",
- "🌱 Learning moment!"
-];
 
-const levels=[
- {name:"🧬 General Path",img:"https://upload.wikimedia.org/wikipedia/commons/6/69/Coagulative_necrosis_histopathology.jpg",
-  q:"Identify the necrosis.",
-  choices:["Liquefactive","Coagulative","Caseous","Fat"],correct:1,
-  why:"Coagulative necrosis preserves architecture."},
- {name:"🍖 Liver",img:"https://upload.wikimedia.org/wikipedia/commons/8/8a/Fatty_change_liver_histology.jpg",
-  q:"What change is shown?",
-  choices:["Hydropic","Fatty","Apoptosis","Fibrosis"],correct:1,
-  why:"Fatty change shows lipid vacuoles."},
- {name:"🫁 Lung",img:"https://upload.wikimedia.org/wikipedia/commons/2/26/Pneumonia_xray.jpg",
-  q:"Diagnosis?",
-  choices:["Edema","Pneumonia","Fibrosis","Atelectasis"],correct:1,
-  why:"Pneumonia causes consolidation."},
- {name:"🧠 Brain",img:"https://upload.wikimedia.org/wikipedia/commons/4/49/Liquefactive_necrosis_brain.jpg",
-  q:"Necrosis type?",
-  choices:["Coagulative","Caseous","Liquefactive","Fat"],correct:2,
-  why:"Liquefactive necrosis in brain infarcts."}
-];
+/* ========= LOGIC ========= */
 
-let unlocked=JSON.parse(localStorage.getItem("unlocked"))||[true,false,false,false];
-let current=-1;
-let music=false;
+let current=0;
+let answered=Array(quiz.length).fill(false);
+let musicOn=false;
 
-function showMap(){
- let html=`<h1>🌸 PATH MAP 🌸</h1><p style="font-size:10px;text-align:center">Unlock levels by diagnosing correctly!</p><div class="map">`;
- levels.forEach((l,i)=>{
-  html+=`<button class="${unlocked[i]?'':'locked'}"
-    onclick="${unlocked[i]?`start(${i})`:''}">
-    ${l.name} ${unlocked[i]?'':'🔒'}
-  </button>`;
- });
- html+=`</div>`;
- document.getElementById("screen").innerHTML=html;
-}
-showMap();
-
-function start(i){
- current=i;
- const L=levels[i];
- document.getElementById("screen").innerHTML=`
- <div class="mascot">
-  <img src="https://i.imgur.com/4AiXzf8.png">
-  <div class="speech" id="speech">🧙‍♀️ Welcome to ${L.name}!</div>
- </div>
-
- <div class="bar"><div id="fill" class="fill"></div></div>
-
- <p style="font-size:10px">${L.q}</p>
-
- <div class="image-box" id="imgBox">
-  <img src="${L.img}">
-  <svg viewBox="0 0 100 100">
-   <line x1="80" y1="15" x2="50" y2="50" stroke="#ff4d94" stroke-width="3"/>
-   <polygon points="50,50 55,45 55,55" fill="#ff4d94"/>
-  </svg>
- </div>
-
- <div class="choices" id="choices"></div>
- <div class="rationale" id="why"></div>
-
- <div class="nav">
-  <button onclick="showMap()">🗺 MAP</button>
-  <button onclick="showMap()">FINISH</button>
- </div>
- `;
- const c=document.getElementById("choices");
- L.choices.forEach((x,idx)=>{
+function buildSidebar(){
+ const sb=document.getElementById("sidebarBtns");
+ sb.innerHTML="";
+ quiz.forEach((_,i)=>{
   const b=document.createElement("button");
-  b.innerText=x;
-  b.onclick=()=>answer(b,idx,L);
-  c.appendChild(b);
+  b.className="qbtn";
+  b.innerText="Q"+(i+1);
+  b.onclick=()=>loadQ(i);
+  sb.appendChild(b);
+ });
+}
+function updateSidebar(){
+ document.querySelectorAll(".qbtn").forEach((b,i)=>{
+  if(answered[i]) b.classList.add("answered");
  });
 }
 
-function answer(btn,idx,L){
- const speech=document.getElementById("speech");
- if(idx===L.correct){
+function loadQ(i){
+ current=i;
+ const q=quiz[i];
+ document.getElementById("question").innerText=q.q;
+ document.getElementById("image").src=q.img;
+ const c=document.getElementById("choices");
+ c.innerHTML="";
+ q.choices.forEach((ch,idx)=>{
+  const btn=document.createElement("button");
+  btn.className="choice";
+  btn.innerText=ch;
+  btn.onclick=()=>answer(btn,idx);
+  c.appendChild(btn);
+ });
+ document.getElementById("explain").style.display="none";
+}
+
+function answer(btn,idx){
+ if(answered[current]) return;
+ const q=quiz[current];
+ const buttons=document.querySelectorAll(".choice");
+ buttons.forEach(b=>b.disabled=true);
+ if(idx===q.correct){
   btn.classList.add("correct");
+  document.getElementById("speech").innerText="✨ Correct!";
   document.getElementById("correctSound").play();
-  speech.innerText=catGood[Math.floor(Math.random()*catGood.length)];
-  sparkle();
-  document.getElementById("fill").style.width="100%";
-  if(current+1<unlocked.length){
-    unlocked[current+1]=true;
-    localStorage.setItem("unlocked",JSON.stringify(unlocked));
-  }
  } else {
   btn.classList.add("wrong");
-  speech.innerText=catOops[Math.floor(Math.random()*catOops.length)];
+  buttons[q.correct].classList.add("correct");
+  document.getElementById("speech").innerText="😿 Incorrect";
  }
- document.getElementById("why").innerText=L.why;
- document.getElementById("why").style.display="block";
+ document.getElementById("explain").innerText=q.why;
+ document.getElementById("explain").style.display="block";
+ answered[current]=true;
+ updateSidebar();
 }
 
-function sparkle(){
- const box=document.getElementById("imgBox");
- for(let i=0;i<15;i++){
-  const s=document.createElement("div");
-  s.className="sparkle";
-  s.style.left=Math.random()*100+"%";
-  s.style.top=Math.random()*100+"%";
-  box.appendChild(s);
-  setTimeout(()=>s.remove(),800);
- }
-}
-
+function nextQ(){if(current<quiz.length-1) loadQ(current+1)}
+function prevQ(){if(current>0) loadQ(current-1)}
 function toggleMusic(){
  const bgm=document.getElementById("bgm");
- music=!music;
- music?bgm.play():bgm.pause();
+ musicOn?bgm.pause():bgm.play();
+ musicOn=!musicOn;
 }
+
+buildSidebar();
+loadQ(0);
 </script>
 
 </body>
