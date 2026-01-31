@@ -7,289 +7,314 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-* {
-  font-family: 'Press Start 2P', cursive;
-  box-sizing: border-box;
+*{
+  font-family:'Press Start 2P',cursive;
+  box-sizing:border-box;
+  cursor:url("images/cursor.gif") 8 8, auto;
 }
 
-body {
-  margin: 0;
-  background: #ffe6f0;
-  color: #5a2a3b;
-  display: flex;
-  height: 100vh;
+body{
+  margin:0;
+  background:#ffe6f0;
+  color:#5a2a3b;
+  height:100vh;
+}
+
+/* ===== MAP SCREEN ===== */
+#map{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+.map-btn{
+  width:260px;
+  padding:16px;
+  margin:10px;
+  background:#ffb3d9;
+  border:3px solid #ff85b3;
+  border-radius:14px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+/* ===== LAYOUT ===== */
+#quiz{
+  display:none;
+  height:100vh;
+  display:flex;
 }
 
 /* SIDEBAR */
-.sidebar {
-  width: 200px;
-  background: #ffd1e8;
-  border-right: 4px solid #ff85b3;
-  padding: 10px;
-  overflow-y: auto;
+.sidebar{
+  width:180px;
+  background:#ffd1e8;
+  border-right:4px solid #ff85b3;
+  padding:10px;
+  overflow-y:auto;
 }
-
-.sidebar h2 {
-  font-size: 11px;
-  text-align: center;
-  color: #d63384;
+.qbtn{
+  width:100%;
+  margin:4px 0;
+  padding:6px;
+  font-size:9px;
+  background:#ffe0ef;
+  border:2px solid #ff85b3;
+  border-radius:8px;
 }
-
-.qbtn {
-  width: 100%;
-  padding: 8px;
-  margin: 4px 0;
-  font-size: 10px;
-  background: #ffe0ef;
-  border: 2px solid #ff85b3;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.qbtn.answered {
-  background: #b8f2c2;
-}
+.qbtn.answered{background:#b8f2c2}
 
 /* MAIN */
-.main {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+.main{
+  flex:1;
+  padding:20px;
+  overflow-y:auto;
 }
 
-.box {
-  max-width: 720px;
-  margin: auto;
-  background: #fff0f6;
-  border: 4px solid #ff9ecf;
-  border-radius: 16px;
-  padding: 20px;
+.box{
+  max-width:720px;
+  margin:auto;
+  background:#fff0f6;
+  border:4px solid #ff9ecf;
+  border-radius:16px;
+  padding:20px;
 }
 
-h1 {
-  text-align: center;
-  font-size: 16px;
-  color: #d63384;
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.score{
+  font-size:10px;
+}
+
+/* PROGRESS */
+.progress{
+  width:100%;
+  height:14px;
+  background:#ffd1e8;
+  border-radius:10px;
+  margin:10px 0;
+}
+.bar{
+  height:100%;
+  width:0%;
+  background:#ff85b3;
+  border-radius:10px;
 }
 
 /* MASCOT */
-.mascot {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
+.mascot{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin:10px 0;
+}
+.mascot img{width:60px}
+.speech{
+  background:white;
+  border:3px solid #ff85b3;
+  border-radius:12px;
+  padding:8px;
+  font-size:10px;
 }
 
-.mascot img {
-  width: 60px;
+/* IMAGE */
+.quiz-img{
+  width:100%;
+  border:3px solid #ff85b3;
+  border-radius:10px;
+  margin:12px 0;
+  cursor:zoom-in;
 }
 
-.speech {
-  background: white;
-  border: 3px solid #ff85b3;
-  border-radius: 12px;
-  padding: 8px;
-  font-size: 10px;
+/* ZOOM */
+.zoom{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
-
-/* IMAGE BOX */
-.image-box {
-  border: 3px solid #ff85b3;
-  border-radius: 10px;
-  margin: 10px 0;
-  padding: 10px;
-  background: #fff;
-  text-align: center;
-}
-
-.image-box img {
-  max-width: 100%;
-  display: block;
-  margin: auto;
-}
-
-.fallback {
-  font-size: 10px;
-  color: #999;
-  display: none;
+.zoom img{
+  max-width:90%;
+  max-height:90%;
+  border:5px solid white;
 }
 
 /* CHOICES */
-.choice {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0;
-  background: #ffe0ef;
-  border: 2px solid #ff85b3;
-  border-radius: 12px;
-  font-size: 12px;
-  line-height: 1.6;
-  cursor: pointer;
+.choice{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  background:#ffe0ef;
+  border:2px solid #ff85b3;
+  border-radius:12px;
+  font-size:12px;
 }
-
-.choice:hover {
-  background: #ffb3d9;
-}
-
-.correct { background: #b8f2c2 !important; }
-.wrong { background: #ffb3b3 !important; }
-
-#explain {
-  font-size: 10px;
-  margin-top: 10px;
-  display: none;
-}
+.choice:hover{background:#ffb3d9}
+.correct{background:#b8f2c2!important}
+.wrong{background:#ffb3b3!important}
 
 /* NAV */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+.nav{
+  display:flex;
+  justify-content:space-between;
+  margin-top:14px;
 }
-
-.nav button {
-  width: 48%;
-  padding: 10px;
-  font-size: 10px;
-  background: #ff85b3;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+.nav button{
+  width:48%;
+  padding:10px;
+  background:#ff85b3;
+  color:white;
+  border:none;
+  border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="sidebar">
-  <h2>PathQuest</h2>
-  <div id="sidebarBtns"></div>
+<!-- ===== MAP SCREEN ===== -->
+<div id="map">
+  <h1>🌸 PathQuest 🌸</h1>
+  <button class="map-btn" onclick="start('general')">🧬 General Pathology</button>
+  <button class="map-btn" onclick="start('liver')">🍖 Liver Pathology</button>
 </div>
 
-<div class="main">
-  <div class="box">
-    <h1>🌸 PathQuest 🌸</h1>
+<!-- ===== QUIZ ===== -->
+<div id="quiz">
+  <div class="sidebar" id="sidebar"></div>
 
-    <div class="mascot">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Black_cat_silhouette.svg/512px-Black_cat_silhouette.svg.png">
-      <div class="speech" id="speech">Let’s begin 💖</div>
-    </div>
+  <div class="main">
+    <div class="box">
 
-    <p id="question"></p>
-
-    <div class="image-box">
-      <img id="image">
-      <div class="fallback" id="fallback">
-        🩺 Image blocked by network<br>
-        (Use local image for exams)
+      <div class="header">
+        <div class="score" id="score">Score: 0</div>
+        <button onclick="backToMap()">🗺️ Map</button>
       </div>
-    </div>
 
-    <div id="choices"></div>
-    <div id="explain"></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
 
-    <div class="nav">
-      <button onclick="prevQ()">⬅ Back</button>
-      <button onclick="nextQ()">Next ➡</button>
+      <div class="mascot">
+        <img src="images/cat.gif">
+        <div class="speech" id="speech">Let’s go!</div>
+      </div>
+
+      <p id="question"></p>
+      <img id="image" class="quiz-img" onclick="zoomImg()">
+
+      <div id="choices"></div>
+      <p id="why" style="font-size:10px;display:none"></p>
+
+      <div class="nav">
+        <button onclick="prevQ()">⬅ Back</button>
+        <button onclick="nextQ()">Next ➡</button>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- ZOOM -->
+<div class="zoom" id="zoom" onclick="closeZoom()">
+  <img id="zoomImg">
+</div>
+
 <script>
-const quiz = [
-  {
-    q: "What type of necrosis is shown?",
-    img: "https://upload.wikimedia.org/wikipedia/commons/6/69/Coagulative_necrosis_histopathology.jpg",
-    choices: ["Liquefactive","Coagulative","Caseous","Fat"],
-    correct: 1,
-    why: "Coagulative necrosis preserves tissue architecture."
-  },
-  {
-    q: "Which necrosis is typical of brain infarction?",
-    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Liquefactive_necrosis_brain.jpg",
-    choices: ["Coagulative","Caseous","Liquefactive","Fat"],
-    correct: 2,
-    why: "Brain infarcts undergo liquefactive necrosis."
-  }
-];
+/* ===== QUESTION BANK ===== */
+const banks={
+general:[
+{q:"Brain infarct necrosis?",img:"images/brain_liquefactive.jpg",
+c:["Coagulative","Caseous","Liquefactive","Fat"],a:2,w:"Brain → liquefactive necrosis"},
+{q:"Necrosis preserving architecture?",img:"images/coagulative_necrosis.jpg",
+c:["Liquefactive","Coagulative","Caseous","Fat"],a:1,w:"Ischemia → coagulative"}
+],
+liver:[
+{q:"Liver change shown?",img:"images/fatty_liver.jpg",
+c:["Fibrosis","Fatty change","Cirrhosis","Necrosis"],a:1,w:"Fat vacuoles in hepatocytes"}
+]
+};
 
-let current = 0;
-let answered = Array(quiz.length).fill(false);
+let quiz=[],i=0,score=0,answered=[];
 
-function buildSidebar() {
-  const sb = document.getElementById("sidebarBtns");
-  sb.innerHTML = "";
-  quiz.forEach((_, i) => {
-    const b = document.createElement("button");
-    b.className = "qbtn";
-    b.innerText = "Q" + (i + 1);
-    b.onclick = () => loadQ(i);
-    sb.appendChild(b);
-  });
+/* ===== FLOW ===== */
+function start(sys){
+ quiz=banks[sys];
+ answered=Array(quiz.length).fill(false);
+ i=0; score=0;
+ document.getElementById("map").style.display="none";
+ document.getElementById("quiz").style.display="flex";
+ buildSidebar(); load();
 }
 
-function loadQ(i) {
-  current = i;
-  const q = quiz[i];
-
-  document.getElementById("question").innerText = q.q;
-
-  const img = document.getElementById("image");
-  const fallback = document.getElementById("fallback");
-
-  fallback.style.display = "none";
-  img.style.display = "block";
-  img.src = q.img;
-
-  img.onerror = () => {
-    img.style.display = "none";
-    fallback.style.display = "block";
-  };
-
-  const c = document.getElementById("choices");
-  c.innerHTML = "";
-
-  q.choices.forEach((choice, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "choice";
-    btn.innerText = choice;
-    btn.onclick = () => answer(btn, idx);
-    c.appendChild(btn);
-  });
-
-  document.getElementById("explain").style.display = "none";
+function backToMap(){
+ document.getElementById("quiz").style.display="none";
+ document.getElementById("map").style.display="flex";
 }
 
-function answer(btn, idx) {
-  if (answered[current]) return;
-  const q = quiz[current];
-  const buttons = document.querySelectorAll(".choice");
-
-  if (idx === q.correct) {
-    btn.classList.add("correct");
-    document.getElementById("speech").innerText = "✨ Correct!";
-  } else {
-    btn.classList.add("wrong");
-    buttons[q.correct].classList.add("correct");
-    document.getElementById("speech").innerText = "😿 Incorrect";
-  }
-
-  document.getElementById("explain").innerText = q.why;
-  document.getElementById("explain").style.display = "block";
-  answered[current] = true;
+function buildSidebar(){
+ const s=document.getElementById("sidebar");
+ s.innerHTML="";
+ quiz.forEach((_,x)=>{
+  const b=document.createElement("button");
+  b.className="qbtn";
+  b.innerText="Q"+(x+1);
+  b.onclick=()=>{i=x;load()};
+  s.appendChild(b);
+ });
 }
 
-function nextQ() {
-  if (current < quiz.length - 1) loadQ(current + 1);
+function updateUI(){
+ document.getElementById("score").innerText="Score: "+score;
+ document.getElementById("bar").style.width=((answered.filter(v=>v).length/quiz.length)*100)+"%";
+ document.querySelectorAll(".qbtn").forEach((b,x)=>{
+  if(answered[x]) b.classList.add("answered");
+ });
 }
 
-function prevQ() {
-  if (current > 0) loadQ(current - 1);
+function load(){
+ const q=quiz[i];
+ document.getElementById("question").innerText=q.q;
+ document.getElementById("image").src=q.img;
+ const c=document.getElementById("choices");
+ c.innerHTML="";
+ q.c.forEach((t,x)=>{
+  const b=document.createElement("button");
+  b.className="choice";
+  b.innerText=t;
+  b.onclick=()=>answer(b,x);
+  c.appendChild(b);
+ });
+ document.getElementById("why").style.display="none";
+ updateUI();
 }
 
-buildSidebar();
-loadQ(0);
+function answer(btn,x){
+ if(answered[i])return;
+ const q=quiz[i];
+ if(x===q.a){btn.classList.add("correct");score++;speech("✨ Correct!")}
+ else{btn.classList.add("wrong");speech("😿 Oops")}
+ document.getElementById("why").innerText=q.w;
+ document.getElementById("why").style.display="block";
+ answered[i]=true; updateUI();
+}
+
+function nextQ(){if(i<quiz.length-1){i++;load()}}
+function prevQ(){if(i>0){i--;load()}}
+
+function speech(t){document.getElementById("speech").innerText=t}
+
+/* ZOOM */
+function zoomImg(){
+ document.getElementById("zoomImg").src=document.getElementById("image").src;
+ document.getElementById("zoom").style.display="flex";
+}
+function closeZoom(){document.getElementById("zoom").style.display="none"}
 </script>
 
 </body>
