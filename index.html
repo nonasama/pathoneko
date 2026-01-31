@@ -2,58 +2,160 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pink Pixel Pathology Quiz</title>
+<title>PathQuest</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-*{font-family:'Press Start 2P',cursive;box-sizing:border-box}
-body{margin:0;background:#ffe6f0;color:#5a2a3b;display:flex;height:100vh}
+* {
+  font-family: 'Press Start 2P', cursive;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #ffe6f0;
+  color: #5a2a3b;
+  display: flex;
+  height: 100vh;
+}
 
 /* SIDEBAR */
-.sidebar{width:200px;background:#ffd1e8;border-right:4px solid #ff85b3;padding:10px;overflow-y:auto}
-.sidebar h2{font-size:11px;text-align:center;color:#d63384}
-.qbtn{width:100%;padding:8px;margin:4px 0;font-size:10px;background:#ffe0ef;border:2px solid #ff85b3;border-radius:8px;cursor:pointer}
-.qbtn.answered{background:#b8f2c2}
+.sidebar {
+  width: 200px;
+  background: #ffd1e8;
+  border-right: 4px solid #ff85b3;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  font-size: 11px;
+  text-align: center;
+  color: #d63384;
+}
+
+.qbtn {
+  width: 100%;
+  padding: 8px;
+  margin: 4px 0;
+  font-size: 10px;
+  background: #ffe0ef;
+  border: 2px solid #ff85b3;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.qbtn.answered {
+  background: #b8f2c2;
+}
 
 /* MAIN */
-.main{flex:1;padding:20px;overflow-y:auto}
-.box{max-width:720px;margin:auto;background:#fff0f6;border:4px solid #ff9ecf;border-radius:16px;padding:20px}
-h1{text-align:center;font-size:14px;color:#d63384}
+.main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.box {
+  max-width: 720px;
+  margin: auto;
+  background: #fff0f6;
+  border: 4px solid #ff9ecf;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 16px;
+  color: #d63384;
+}
 
 /* MASCOT */
-.mascot{display:flex;gap:10px;align-items:center;margin-bottom:10px}
-.mascot img{width:60px}
-.speech{background:white;border:3px solid #ff85b3;border-radius:12px;padding:8px;font-size:10px}
+.mascot {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-/* IMAGE */
-.quiz-img{width:100%;border:3px solid #ff85b3;border-radius:10px;margin:10px 0}
+.mascot img {
+  width: 60px;
+}
+
+.speech {
+  background: white;
+  border: 3px solid #ff85b3;
+  border-radius: 12px;
+  padding: 8px;
+  font-size: 10px;
+}
+
+/* IMAGE BOX */
+.image-box {
+  border: 3px solid #ff85b3;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px;
+  background: #fff;
+  text-align: center;
+}
+
+.image-box img {
+  max-width: 100%;
+  display: block;
+  margin: auto;
+}
+
+.fallback {
+  font-size: 10px;
+  color: #999;
+  display: none;
+}
 
 /* CHOICES */
-.choice{
- width:100%;padding:14px;margin:8px 0;
- background:#ffe0ef;border:2px solid #ff85b3;border-radius:12px;
- font-size:12px;line-height:1.6;cursor:pointer;
- transition:.15s
+.choice {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  background: #ffe0ef;
+  border: 2px solid #ff85b3;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: pointer;
 }
-.choice:hover{background:#ffb3d9;transform:scale(1.01)}
-.correct{background:#b8f2c2!important}
-.wrong{background:#ffb3b3!important}
 
-#explain{font-size:10px;margin-top:10px;display:none}
+.choice:hover {
+  background: #ffb3d9;
+}
+
+.correct { background: #b8f2c2 !important; }
+.wrong { background: #ffb3b3 !important; }
+
+#explain {
+  font-size: 10px;
+  margin-top: 10px;
+  display: none;
+}
 
 /* NAV */
-.nav{display:flex;justify-content:space-between;margin-top:15px}
-.nav button{
- width:48%;padding:10px;font-size:10px;
- background:#ff85b3;color:white;border:none;border-radius:10px;cursor:pointer
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
-/* MUSIC */
-.music-btn{
- position:fixed;bottom:10px;right:10px;
- font-size:10px;background:#ff85b3;color:white;
- padding:8px;border-radius:10px;cursor:pointer
+.nav button {
+  width: 48%;
+  padding: 10px;
+  font-size: 10px;
+  background: #ff85b3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -61,21 +163,29 @@ h1{text-align:center;font-size:14px;color:#d63384}
 <body>
 
 <div class="sidebar">
-  <h2>Questions</h2>
+  <h2>PathQuest</h2>
   <div id="sidebarBtns"></div>
 </div>
 
 <div class="main">
   <div class="box">
-    <h1>🌸 Pink Pixel Pathology 🌸</h1>
+    <h1>🌸 PathQuest 🌸</h1>
 
     <div class="mascot">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Black_cat_silhouette.svg/512px-Black_cat_silhouette.svg.png">
-      <div class="speech" id="speech">You got this 💖</div>
+      <div class="speech" id="speech">Let’s begin 💖</div>
     </div>
 
     <p id="question"></p>
-    <img id="image" class="quiz-img">
+
+    <div class="image-box">
+      <img id="image">
+      <div class="fallback" id="fallback">
+        🩺 Image blocked by network<br>
+        (Use local image for exams)
+      </div>
+    </div>
+
     <div id="choices"></div>
     <div id="explain"></div>
 
@@ -86,123 +196,96 @@ h1{text-align:center;font-size:14px;color:#d63384}
   </div>
 </div>
 
-<audio id="correctSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_6c43f79b61.mp3"></audio>
-<audio id="bgm" src="https://cdn.pixabay.com/audio/2022/08/02/audio_4f3a3a55a3.mp3" loop></audio>
-<div class="music-btn" onclick="toggleMusic()">🎵 Music</div>
-
 <script>
-/* ========= QUESTION BANK ========= */
-
 const quiz = [
-/* 🧬 GENERAL PATHOLOGY (5) */
-{q:"Type of necrosis?",img:"https://upload.wikimedia.org/wikipedia/commons/6/69/Coagulative_necrosis_histopathology.jpg",
-choices:["Liquefactive","Coagulative","Caseous","Fat"],correct:1,
-why:"Coagulative necrosis preserves tissue architecture."},
-
-{q:"Typical necrosis in brain infarct?",img:"https://upload.wikimedia.org/wikipedia/commons/4/49/Liquefactive_necrosis_brain.jpg",
-choices:["Coagulative","Caseous","Liquefactive","Fat"],correct:2,
-why:"Brain infarcts undergo liquefactive necrosis."},
-
-{q:"TB granuloma necrosis?",img:"https://upload.wikimedia.org/wikipedia/commons/2/26/Caseous_necrosis.jpg",
-choices:["Fat","Caseous","Coagulative","Fibrinoid"],correct:1,
-why:"Caseous necrosis is typical of tuberculosis."},
-
-{q:"Fat necrosis is associated with?",img:"https://upload.wikimedia.org/wikipedia/commons/1/14/Fat_necrosis_pancreas.jpg",
-choices:["Brain","Pancreas","Liver","Kidney"],correct:1,
-why:"Fat necrosis occurs in acute pancreatitis."},
-
-{q:"Apoptosis feature?",img:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Apoptosis_DAPI.jpg",
-choices:["Inflammation","Cell swelling","No inflammation","Rupture"],correct:2,
-why:"Apoptosis does not elicit inflammation."},
-
-/* 🍖 LIVER PATHOLOGY (5) */
-{q:"Liver change shown?",img:"https://upload.wikimedia.org/wikipedia/commons/8/8a/Fatty_change_liver_histology.jpg",
-choices:["Fibrosis","Fatty change","Cirrhosis","Necrosis"],correct:1,
-why:"Fatty liver shows lipid vacuoles."},
-
-{q:"Chronic liver injury leads to?",img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Liver_cirrhosis_histology.jpg",
-choices:["Steatosis","Cirrhosis","Hepatitis A","Apoptosis"],correct:1,
-why:"Chronic injury causes fibrosis and cirrhosis."},
-
-{q:"Ballooning degeneration seen in?",img:"https://upload.wikimedia.org/wikipedia/commons/9/9c/Ballooning_degeneration.jpg",
-choices:["Alcoholic hepatitis","Viral hepatitis","Cirrhosis","Cancer"],correct:0,
-why:"Alcoholic hepatitis shows ballooning degeneration."},
-
-{q:"Mallory bodies found in?",img:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Mallory_bodies.jpg",
-choices:["NAFLD","Alcoholic liver disease","HBV","HCV"],correct:1,
-why:"Mallory bodies are seen in alcoholic liver disease."},
-
-{q:"Kupffer cells are?",img:"https://upload.wikimedia.org/wikipedia/commons/d/d8/Kupffer_cells.jpg",
-choices:["Hepatocytes","Macrophages","Bile cells","Fibroblasts"],correct:1,
-why:"Kupffer cells are liver macrophages."}
+  {
+    q: "What type of necrosis is shown?",
+    img: "https://upload.wikimedia.org/wikipedia/commons/6/69/Coagulative_necrosis_histopathology.jpg",
+    choices: ["Liquefactive","Coagulative","Caseous","Fat"],
+    correct: 1,
+    why: "Coagulative necrosis preserves tissue architecture."
+  },
+  {
+    q: "Which necrosis is typical of brain infarction?",
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/49/Liquefactive_necrosis_brain.jpg",
+    choices: ["Coagulative","Caseous","Liquefactive","Fat"],
+    correct: 2,
+    why: "Brain infarcts undergo liquefactive necrosis."
+  }
 ];
 
-/* ========= LOGIC ========= */
+let current = 0;
+let answered = Array(quiz.length).fill(false);
 
-let current=0;
-let answered=Array(quiz.length).fill(false);
-let musicOn=false;
-
-function buildSidebar(){
- const sb=document.getElementById("sidebarBtns");
- sb.innerHTML="";
- quiz.forEach((_,i)=>{
-  const b=document.createElement("button");
-  b.className="qbtn";
-  b.innerText="Q"+(i+1);
-  b.onclick=()=>loadQ(i);
-  sb.appendChild(b);
- });
-}
-function updateSidebar(){
- document.querySelectorAll(".qbtn").forEach((b,i)=>{
-  if(answered[i]) b.classList.add("answered");
- });
+function buildSidebar() {
+  const sb = document.getElementById("sidebarBtns");
+  sb.innerHTML = "";
+  quiz.forEach((_, i) => {
+    const b = document.createElement("button");
+    b.className = "qbtn";
+    b.innerText = "Q" + (i + 1);
+    b.onclick = () => loadQ(i);
+    sb.appendChild(b);
+  });
 }
 
-function loadQ(i){
- current=i;
- const q=quiz[i];
- document.getElementById("question").innerText=q.q;
- document.getElementById("image").src=q.img;
- const c=document.getElementById("choices");
- c.innerHTML="";
- q.choices.forEach((ch,idx)=>{
-  const btn=document.createElement("button");
-  btn.className="choice";
-  btn.innerText=ch;
-  btn.onclick=()=>answer(btn,idx);
-  c.appendChild(btn);
- });
- document.getElementById("explain").style.display="none";
+function loadQ(i) {
+  current = i;
+  const q = quiz[i];
+
+  document.getElementById("question").innerText = q.q;
+
+  const img = document.getElementById("image");
+  const fallback = document.getElementById("fallback");
+
+  fallback.style.display = "none";
+  img.style.display = "block";
+  img.src = q.img;
+
+  img.onerror = () => {
+    img.style.display = "none";
+    fallback.style.display = "block";
+  };
+
+  const c = document.getElementById("choices");
+  c.innerHTML = "";
+
+  q.choices.forEach((choice, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.innerText = choice;
+    btn.onclick = () => answer(btn, idx);
+    c.appendChild(btn);
+  });
+
+  document.getElementById("explain").style.display = "none";
 }
 
-function answer(btn,idx){
- if(answered[current]) return;
- const q=quiz[current];
- const buttons=document.querySelectorAll(".choice");
- buttons.forEach(b=>b.disabled=true);
- if(idx===q.correct){
-  btn.classList.add("correct");
-  document.getElementById("speech").innerText="✨ Correct!";
-  document.getElementById("correctSound").play();
- } else {
-  btn.classList.add("wrong");
-  buttons[q.correct].classList.add("correct");
-  document.getElementById("speech").innerText="😿 Incorrect";
- }
- document.getElementById("explain").innerText=q.why;
- document.getElementById("explain").style.display="block";
- answered[current]=true;
- updateSidebar();
+function answer(btn, idx) {
+  if (answered[current]) return;
+  const q = quiz[current];
+  const buttons = document.querySelectorAll(".choice");
+
+  if (idx === q.correct) {
+    btn.classList.add("correct");
+    document.getElementById("speech").innerText = "✨ Correct!";
+  } else {
+    btn.classList.add("wrong");
+    buttons[q.correct].classList.add("correct");
+    document.getElementById("speech").innerText = "😿 Incorrect";
+  }
+
+  document.getElementById("explain").innerText = q.why;
+  document.getElementById("explain").style.display = "block";
+  answered[current] = true;
 }
 
-function nextQ(){if(current<quiz.length-1) loadQ(current+1)}
-function prevQ(){if(current>0) loadQ(current-1)}
-function toggleMusic(){
- const bgm=document.getElementById("bgm");
- musicOn?bgm.pause():bgm.play();
- musicOn=!musicOn;
+function nextQ() {
+  if (current < quiz.length - 1) loadQ(current + 1);
+}
+
+function prevQ() {
+  if (current > 0) loadQ(current - 1);
 }
 
 buildSidebar();
